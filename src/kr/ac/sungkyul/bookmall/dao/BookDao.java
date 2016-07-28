@@ -1,12 +1,12 @@
 package kr.ac.sungkyul.bookmall.dao;
-
 import java.sql.*;
 import java.util.*;
 
 import kr.ac.sungkyul.bookmall.vo.AuthorVo;
+import kr.ac.sungkyul.bookmall.vo.BookVo;
 
-public class AuthorDao {
-	public int insert(AuthorVo vo) {
+public class BookDao {
+	public int insert(BookVo vo){
 		int count = 0;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -19,12 +19,14 @@ public class AuthorDao {
 			conn = DriverManager.getConnection(url, "skudb", "skudb");
 
 			// 3. statement 준비
-			String sql = "insert into author values(seq_Author.nextval, ?, ?)";
+			String sql = "insert into book values(?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 
 			// 4. 바인딩 준비
-			pstmt.setString(1, vo.getName());
-			pstmt.setString(2, vo.getDescription());
+			pstmt.setLong(1, vo.getNo());
+			pstmt.setString(2, vo.getTitle());
+			pstmt.setInt(3, vo.getRate());
+			pstmt.setInt(4, vo.getAuthorNo());
 
 			// 5. 쿼리 실행
 			count = pstmt.executeUpdate();
@@ -52,8 +54,8 @@ public class AuthorDao {
 		return count;
 	}
 
-	public List<AuthorVo> getList() {
-		List<AuthorVo> list = new ArrayList<AuthorVo>();
+	public List<BookVo> getList() {
+		List<BookVo> list = new ArrayList<BookVo>();
 
 		Connection conn = null;
 		Statement stmt = null;
@@ -70,19 +72,21 @@ public class AuthorDao {
 			stmt = conn.createStatement();
 
 			// 4. SQL문 실행
-			String sql = "select no," + "       name," + "       description" + "  from author";
+			String sql = "select no, title, rate, author_no from book";
 			rs = stmt.executeQuery(sql);
 
 			// 5. 결과 처리
 			while (rs.next()) {
 				Long no = rs.getLong(1);
-				String name = rs.getString(2);
-				String description = rs.getString(3);
+				String title = rs.getString(2);
+				Integer rate = rs.getInt(3);
+				Integer authorNo = rs.getInt(4);
 
-				AuthorVo vo = new AuthorVo();
+				BookVo vo = new BookVo();
 				vo.setNo(no);
-				vo.setName(name);
-				vo.setDescription(description);
+				vo.setTitle(title);
+				vo.setRate(rate);
+				vo.setAuthorNo(authorNo);
 
 				list.add(vo);
 				
