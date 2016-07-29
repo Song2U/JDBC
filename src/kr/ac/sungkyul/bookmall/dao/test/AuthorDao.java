@@ -1,13 +1,13 @@
-package kr.ac.sungkyul.bookmall.dao;
+package kr.ac.sungkyul.bookmall.dao.test;
+
 
 import java.sql.*;
 import java.util.*;
 
 import kr.ac.sungkyul.bookmall.vo.AuthorVo;
-import kr.ac.sungkyul.bookmall.vo.BookVo;
 
-public class BookDao {
-	public int insert(BookVo vo){
+public class AuthorDao {
+	public int insert(AuthorVo vo) {
 		int count = 0;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -20,14 +20,12 @@ public class BookDao {
 			conn = DriverManager.getConnection(url, "skudb", "skudb");
 
 			// 3. statement 준비
-			String sql = "insert into book values(?, ?, ?, ?)";
+			String sql = "insert into author values(seq_Author.nextval, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 
 			// 4. 바인딩 준비
-			pstmt.setLong(1, vo.getNo());
-			pstmt.setString(2, vo.getTitle());
-			pstmt.setInt(3, vo.getRate());
-			pstmt.setInt(4, vo.getAuthorNo());
+			pstmt.setString(1, vo.getName());
+			pstmt.setString(2, vo.getDescription());
 
 			// 5. 쿼리 실행
 			count = pstmt.executeUpdate();
@@ -55,8 +53,8 @@ public class BookDao {
 		return count;
 	}
 
-	public List<BookVo> getList() {
-		List<BookVo> list = new ArrayList<BookVo>();
+	public List<AuthorVo> getList() {
+		List<AuthorVo> list = new ArrayList<AuthorVo>();
 
 		Connection conn = null;
 		Statement stmt = null;
@@ -73,21 +71,19 @@ public class BookDao {
 			stmt = conn.createStatement();
 
 			// 4. SQL문 실행
-			String sql = "select no, title, rate, author_no from book";
+			String sql = "select no," + "       name," + "       description" + "  from author";
 			rs = stmt.executeQuery(sql);
 
 			// 5. 결과 처리
 			while (rs.next()) {
 				Long no = rs.getLong(1);
-				String title = rs.getString(2);
-				Integer rate = rs.getInt(3);
-				Integer authorNo = rs.getInt(4);
+				String name = rs.getString(2);
+				String description = rs.getString(3);
 
-				BookVo vo = new BookVo();
+				AuthorVo vo = new AuthorVo();
 				vo.setNo(no);
-				vo.setTitle(title);
-				vo.setRate(rate);
-				vo.setAuthorNo(authorNo);
+				vo.setName(name);
+				vo.setDescription(description);
 
 				list.add(vo);
 				
