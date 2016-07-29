@@ -1,12 +1,105 @@
 package kr.ac.sungkyul.bookmall.dao;
 
-
 import java.sql.*;
 import java.util.*;
 
 import kr.ac.sungkyul.bookmall.vo.AuthorVo;
 
 public class AuthorDao {
+	public int delete() {
+		/* 전체 삭제 */
+		return 0;
+	}
+
+	public int update(AuthorVo vo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int count = 0;
+
+		try {
+			// 1. 드라이버 로딩
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+
+			// 2. Connection 얻어오기
+			String url = "jdbc:oracle:thin:@localhost:1521:xe";
+			conn = DriverManager.getConnection(url, "skudb", "skudb");
+
+			// 3. Statement 준비
+			String sql = "update author set name = ?, description = ?, where no = ?";
+			pstmt = conn.prepareStatement(sql);
+
+			// 4. 바인딩
+			pstmt.setString(1, vo.getName());
+			pstmt.setString(2, vo.getDescription());
+			pstmt.setLong(3, vo.getNo());
+
+			// 5. sql 실행
+			count = pstmt.executeUpdate();
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("드라이버를 찾을 수 없습니다. : " + e);
+		} catch (SQLException e) {
+			System.out.println("SQL Error : " + e);
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return count;
+
+	}
+
+	public int delete(Long no) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int count = 0;
+
+		try {
+			// 1. 드라이버 로딩
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+
+			// 2. Connection 얻어오기
+			String url = "jdbc:oracle:thin:@localhost:1521:xe";
+			conn = DriverManager.getConnection(url, "skudb", "skudb");
+
+			// 3. Statement 준비
+			String sql = "delete from author where no = ?";
+			pstmt = conn.prepareStatement(sql);
+
+			// 4. 바인딩
+			pstmt.setLong(1, no);
+
+			// 5. sql 실행
+			count = pstmt.executeUpdate();
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("드라이버를 찾을 수 없습니다. : " + e);
+		} catch (SQLException e) {
+			System.out.println("SQL Error : " + e);
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return count;
+	}
+
 	public int insert(AuthorVo vo) {
 		int count = 0;
 		Connection conn = null;
@@ -49,7 +142,7 @@ public class AuthorDao {
 			} catch (SQLException e) {
 				System.out.println("error:" + e);
 			}
-		}			
+		}
 		return count;
 	}
 
@@ -86,7 +179,7 @@ public class AuthorDao {
 				vo.setDescription(description);
 
 				list.add(vo);
-				
+
 			}
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패 :" + e);

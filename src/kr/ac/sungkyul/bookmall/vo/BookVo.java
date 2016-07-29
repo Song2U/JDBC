@@ -8,7 +8,7 @@ public class BookVo {
 	 * private Long authorNo;
 	 * private AuthorVo author; : 쿼리 받아올 객체로 생성이 안 되기 때문에 사용 x
 	 */
-	private Integer authorNo;
+	private Long authorNo;
 
 	public Long getNo() {
 		return no;
@@ -34,12 +34,11 @@ public class BookVo {
 		this.rate = rate;
 	}
 
-	
-	public Integer getAuthorNo() {
+	public Long getAuthorNo() {
 		return authorNo;
 	}
 
-	public void setAuthorNo(Integer authorNo) {
+	public void setAuthorNo(Long authorNo) {
 		this.authorNo = authorNo;
 	}
 

@@ -27,7 +27,7 @@ public class BookDao {
 			pstmt.setLong(1, vo.getNo());
 			pstmt.setString(2, vo.getTitle());
 			pstmt.setInt(3, vo.getRate());
-			pstmt.setInt(4, vo.getAuthorNo());
+			pstmt.setLong(4, vo.getAuthorNo());
 
 			// 5. 쿼리 실행
 			count = pstmt.executeUpdate();
@@ -81,7 +81,7 @@ public class BookDao {
 				Long no = rs.getLong(1);
 				String title = rs.getString(2);
 				Integer rate = rs.getInt(3);
-				Integer authorNo = rs.getInt(4);
+				Long authorNo = rs.getLong(4);
 
 				BookVo vo = new BookVo();
 				vo.setNo(no);
