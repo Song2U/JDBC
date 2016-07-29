@@ -11,63 +11,115 @@ import java.util.List;
 import kr.ac.sungkyul.hr.vo.EmployeeVo;
 
 public class EmployeeDao {
-   public List<EmployeeVo> getList(String name) {
-      List<EmployeeVo> list = new ArrayList<EmployeeVo>();
-      Connection conn = null;
-      PreparedStatement pstmt = null;
-      ResultSet rs = null;
+	public List<EmployeeVo> getList(String name) {
+		List<EmployeeVo> list = new ArrayList<EmployeeVo>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-      try {
-         Class.forName("oracle.jdbc.driver.OracleDriver");
-         String url = "jdbc:oracle:thin:@localhost:1521:xe";
-         conn = DriverManager.getConnection(url, "hr", "hr");
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			String url = "jdbc:oracle:thin:@localhost:1521:xe";
+			conn = DriverManager.getConnection(url, "hr", "hr");
 
-         String sql = "select first_name ,last_name, email, phone_number, "
-               + "to_char(hire_date, 'yyyy-mm-dd') from employees "
-               + "where first_name like ? or last_name like ?";
+			String sql = "select first_name ,last_name, email, phone_number, "
+					+ "to_char(hire_date, 'yyyy-mm-dd') from employees "
+					+ "where first_name like ? or last_name like ?";
 
-         pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql);
 
-         pstmt.setString(1, "%" + name + "%");
-         pstmt.setString(2, "%" + name + "%");
+			pstmt.setString(1, "%" + name + "%");
+			pstmt.setString(2, "%" + name + "%");
 
-         rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
-         while (rs.next()) {
-            String firstName = rs.getString(1);
-            String lastName = rs.getString(2);
-            String email = rs.getString(3);
-            String phoneNumber = rs.getString(4);
-            String hireDate = rs.getString(5);
+			while (rs.next()) {
+				String firstName = rs.getString(1);
+				String lastName = rs.getString(2);
+				String email = rs.getString(3);
+				String phoneNumber = rs.getString(4);
+				String hireDate = rs.getString(5);
 
-            EmployeeVo vo = new EmployeeVo();
-            vo.setFirstName(firstName);
-            vo.setLastName(lastName);
-            vo.setEmail(email);
-            vo.setPhoneNumber(phoneNumber);
-            vo.setHireDate(hireDate);
-            list.add(vo);
-         }
+				EmployeeVo vo = new EmployeeVo();
+				vo.setFirstName(firstName);
+				vo.setLastName(lastName);
+				vo.setEmail(email);
+				vo.setPhoneNumber(phoneNumber);
+				vo.setHireDate(hireDate);
+				list.add(vo);
+			}
+		} catch (ClassNotFoundException e) {
+			System.out.println("드라이버를 찾을 수 없습니다 : " + e);
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
 
-      } catch (ClassNotFoundException e) {
-         System.out.println("드라이버를 찾을 수 없습니다 : " + e);
-      } catch (SQLException e) {
-         System.out.println("에러 : " + e);
-      } finally {
-         try {
-            if (rs != null) {
-               rs.close();
-            }
-            if (pstmt != null) {
-               pstmt.close();
-            }
-            if (conn != null) {
-               conn.close();
-            }
-         } catch (SQLException e) {
-            e.printStackTrace();
-         }
-      }
-      return list;
-   }
+	public List<EmployeeVo> getList(Long minSalary, Long maxSalary) {
+		List<EmployeeVo> list = new ArrayList<EmployeeVo>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			String url = "jdbc:oracle:thin:@localhost:1521:xe";
+			conn = DriverManager.getConnection(url, "hr", "hr");
+
+			String sql = "select FIRST_NAME,LAST_NAME, SALARY from employees where ? < salary and salary < ?";
+
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setLong(1, minSalary);
+			pstmt.setLong(2, maxSalary);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				String firstName = rs.getString(1);
+				String lastName = rs.getString(2);
+				int salary = rs.getInt(3);
+
+				EmployeeVo vo = new EmployeeVo();
+				vo.setFirstName(firstName);
+				vo.setLastName(lastName);
+				vo.setSalary(salary);
+				list.add(vo);
+			}
+		} catch (ClassNotFoundException e) {
+			System.out.println("드라이버를 찾을 수 없습니다 : " + e);
+		} catch (SQLException e) {
+			System.out.println("에러 : " + e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
 }

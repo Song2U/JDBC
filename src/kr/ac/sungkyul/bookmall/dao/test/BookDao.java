@@ -7,6 +7,10 @@ import kr.ac.sungkyul.bookmall.vo.BookVo;
 
 public class BookDao {
 
+	public int updateStatus (Long no, Integer status){
+		return 0;
+	}
+	
 	public int delete() {
 		/* 전체 삭제 */
 		Connection conn = null;
@@ -147,13 +151,13 @@ public class BookDao {
 			conn = DriverManager.getConnection(url, "skudb", "skudb");
 
 			// 3. statement 준비
-			String sql = "insert into book values(?, ?, ?, ?)";
+			String sql = "insert into book values(seq_book.nextval, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 
 			// 4. 바인딩 준비
-			pstmt.setLong(1, vo.getNo());
-			pstmt.setString(2, vo.getTitle());
-			pstmt.setInt(3, vo.getRate());
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setInt(2, vo.getRate());
+			pstmt.setInt(3, vo.getStatus());
 			pstmt.setLong(4, vo.getAuthorNo());
 
 			// 5. 쿼리 실행

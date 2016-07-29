@@ -5,6 +5,7 @@ import java.util.*;
 
 import kr.ac.sungkyul.bookmall.vo.AuthorVo;
 import kr.ac.sungkyul.bookmall.vo.BookVo;
+import kr.ac.sungkyul.hr.vo.EmployeeVo;
 
 public class BookDao {
 	public int insert(BookVo vo){
@@ -116,5 +117,11 @@ public class BookDao {
 		}
 
 		return list;
+	}
+
+	public List<EmployeeVo> updateStatus(int num, int i) {
+		List<EmployeeVo> = new List<EmployeeVo>;
+		return null;
+		
 	}
 }

@@ -9,7 +9,7 @@ import kr.ac.sungkyul.bookmall.vo.BookVo;
 public class BookDaoTest {
 
 	public static void main(String[] args) {
-		//testBookDaoInsert();
+		testBookDaoInsert();
 		testBookDaoGetList();
 	}
 
@@ -26,7 +26,7 @@ public class BookDaoTest {
 		BookVo vo = new BookVo();
 		
 		vo.setNo(1L);
-		vo.setTitle("이거슨 신세계");
+		vo.setTitle("ㅋㅋ");
 		vo.setRate(4);
 		vo.setAuthorNo(2L);
 		
@@ -53,16 +53,73 @@ public class BookDaoTest {
 		BookDao dao = new BookDao();
 
 		BookVo vo = new BookVo();
-		vo.setTitle( "향연" );
+		vo.setTitle( "트와일라잇" );
 		vo.setRate( 1 );
+		vo.setStatus(1);
 		vo.setAuthorNo(1L);
 		dao.insert(vo);
 		
 		vo = new BookVo();
-		vo.setTitle( "맹자" );
+		vo.setTitle( "뉴문" );
 		vo.setRate( 1 );
+		vo.setStatus(1);
+		vo.setAuthorNo(1L);
+		dao.insert(vo);
+		
+		vo = new BookVo();
+		vo.setTitle( "이클립스" );
+		vo.setRate( 1 );
+		vo.setStatus(1);
+		vo.setAuthorNo(1L);
+		dao.insert(vo);
+		
+		vo = new BookVo();
+		vo.setTitle( "브레이킹던" );
+		vo.setRate( 1 );
+		vo.setStatus(1);
+		vo.setAuthorNo(1L);
+		dao.insert(vo);
+		
+		vo = new BookVo();
+		vo.setTitle( "아리랑" );
+		vo.setRate( 1 );
+		vo.setStatus(1);
+		vo.setAuthorNo(2L);
+		dao.insert(vo);
+		
+		vo = new BookVo();
+		vo.setTitle( "젊은 그들" );
+		vo.setRate( 1 );
+		vo.setStatus(0);
 		vo.setAuthorNo(3L);
 		dao.insert(vo);		
+		
+		vo = new BookVo();
+		vo.setTitle( "아프니까 청춘이다" );
+		vo.setRate( 4 );
+		vo.setStatus(1);
+		vo.setAuthorNo(1L);
+		dao.insert(vo);
+		
+		vo = new BookVo();
+		vo.setTitle( "귀천" );
+		vo.setRate( 1 );
+		vo.setStatus(1);
+		vo.setAuthorNo(6L);
+		dao.insert(vo);
+		
+		vo = new BookVo();
+		vo.setTitle( "태백산맥" );
+		vo.setRate( 1 );
+		vo.setStatus(1);
+		vo.setAuthorNo(2L);
+		dao.insert(vo);
+		
+		vo = new BookVo();
+		vo.setTitle( "풀하우스" );
+		vo.setRate( 1 );
+		vo.setStatus(1);
+		vo.setAuthorNo(5L);
+		dao.insert(vo);
 	}
 }
-

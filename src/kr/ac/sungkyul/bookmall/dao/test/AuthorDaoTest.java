@@ -8,13 +8,14 @@ import kr.ac.sungkyul.bookmall.vo.BookVo;
 public class AuthorDaoTest {
 
 	public static void main(String[] args) {
-	//	testAuthorDaoInsert();
+	
+		testAuthorDaoInsert();
 		/*testAuthorDaoGetList();
 		testAuthorDaoDelete();
 		testAuthorDaoGetList();
 		testAuthorDaoUpdate();
 		testAuthorDaoGetList();*/
-		testAuthorDaoDeleteAll();
+		//testAuthorDaoDeleteAll();
 		testAuthorDaoGetList();
 	}
 
@@ -54,18 +55,30 @@ public class AuthorDaoTest {
 
 	public static void testAuthorDaoInsert() {
 		AuthorDao dao = new AuthorDao();
+
 		AuthorVo vo = new AuthorVo();
+		vo.setName("천상병");
+		vo.setDescription("");
+		dao.insert(vo);
 
-		vo.setName("플라톤");
+		vo = new AuthorVo();
+		vo.setName("조정래");
 		vo.setDescription("..");
 		dao.insert(vo);
 
-		vo.setName("공자");
+		vo = new AuthorVo();
+		vo.setName("김동인");
+		vo.setDescription("");
+		dao.insert(vo);
+		
+		vo = new AuthorVo();
+		vo.setName("김난도");
 		vo.setDescription("..");
 		dao.insert(vo);
 
-		vo.setName("박경리");
-		vo.setDescription("토지 저자");
+		vo = new AuthorVo();
+		vo.setName("원수연");
+		vo.setDescription("..");
 		dao.insert(vo);
 	}
 }

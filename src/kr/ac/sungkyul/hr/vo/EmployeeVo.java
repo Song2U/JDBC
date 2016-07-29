@@ -68,7 +68,6 @@ public class EmployeeVo {
 
 	@Override
 	public String toString() {
-		return "EmployeeVo [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", phoneNumber=" + phoneNumber + ", hireDate=" + hireDate + ", salary=" + salary + "]";
+		return "[Name : " + firstName + " " + lastName + ",		salary : " + salary + "]";
 	}
 }
