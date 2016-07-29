@@ -1,4 +1,4 @@
-package kr.ac.sungkyul.bookmall.app;
+package kr.ac.sungkyul.bookmall.dao.test;
 
 import java.util.List;
 
