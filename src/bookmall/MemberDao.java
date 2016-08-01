@@ -1,109 +1,17 @@
-package kr.ac.sungkyul.bookmall.dao;
+package bookmall;
 
 import java.sql.*;
 import java.util.*;
 
-import kr.ac.sungkyul.bookmall.vo.AuthorVo;
+public class MemberDao {
+	public int membership(MemberVo vo) {
+		/* 회원 가입 */
 
-public class AuthorDao {
-	public int delete() {
-		/* 전체 삭제 */
-		return 0;
-	}
-
-	public int update(AuthorVo vo) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
 		int count = 0;
 
-		try {
-			// 1. 드라이버 로딩
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-
-			// 2. Connection 얻어오기
-			String url = "jdbc:oracle:thin:@localhost:1521:xe";
-			conn = DriverManager.getConnection(url, "skudb", "skudb");
-
-			// 3. Statement 준비
-			String sql = "update author set name = ?, description = ?, where no = ?";
-			pstmt = conn.prepareStatement(sql);
-
-			// 4. 바인딩
-			pstmt.setString(1, vo.getName());
-			pstmt.setString(2, vo.getDescription());
-			pstmt.setLong(3, vo.getNo());
-
-			// 5. sql 실행
-			count = pstmt.executeUpdate();
-
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버를 찾을 수 없습니다. : " + e);
-		} catch (SQLException e) {
-			System.out.println("SQL Error : " + e);
-		} finally {
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return count;
-
-	}
-
-	public int delete(Long no) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		int count = 0;
 
-		try {
-			// 1. 드라이버 로딩
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-
-			// 2. Connection 얻어오기
-			String url = "jdbc:oracle:thin:@localhost:1521:xe";
-			conn = DriverManager.getConnection(url, "skudb", "skudb");
-
-			// 3. Statement 준비
-			String sql = "delete from author where no = ?";
-			pstmt = conn.prepareStatement(sql);
-
-			// 4. 바인딩
-			pstmt.setLong(1, no);
-
-			// 5. sql 실행
-			count = pstmt.executeUpdate();
-
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버를 찾을 수 없습니다. : " + e);
-		} catch (SQLException e) {
-			System.out.println("SQL Error : " + e);
-		} finally {
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return count;
-	}
-
-	public int insert(AuthorVo vo) {
-		int count = 0;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
 		try {
 			// 1. 드라이버 로딩
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -113,45 +21,134 @@ public class AuthorDao {
 			conn = DriverManager.getConnection(url, "skudb", "skudb");
 
 			// 3. statement 준비
-			String sql = "insert into author values(seq_Author.nextval, ?, ?)";
+			String sql = "insert into members values(seq_members.nextval, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 
 			// 4. 바인딩 준비
-			pstmt.setString(1, vo.getName());
-			pstmt.setString(2, vo.getDescription());
+			pstmt.setString(1, vo.getMemberName());
+			pstmt.setString(2, vo.getMemberPhone());
+			pstmt.setString(3, vo.getMemberEmail());
+			pstmt.setString(4, vo.getMemberPassword());
 
 			// 5. 쿼리 실행
 			count = pstmt.executeUpdate();
 
-			System.out.println(count + "개의 row가 입력되었습니다.");
-
+			System.out.println(count + "명의 회원정보가 입력되었습니다.");
 		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패 :" + e);
+			System.out.println("드라이버 로딩 실패 : " + e);
 		} catch (SQLException e) {
-			System.out.println("error:" + e);
+			System.out.println("SQL Error : " + e);
 		} finally {
 			try {
-				// 6. 자원정리
 				if (pstmt != null) {
 					pstmt.close();
 				}
-
 				if (conn != null) {
 					conn.close();
 				}
 			} catch (SQLException e) {
-				System.out.println("error:" + e);
+				System.out.println("SQL Error : " + e);
 			}
 		}
 		return count;
 	}
 
-	public List<AuthorVo> getList() {
-		List<AuthorVo> list = new ArrayList<AuthorVo>();
+	public int membershipDelete(Long no) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int count = 0;
+
+		try {
+			// 1. 드라이버 로딩
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+
+			// 2. Connection 얻어오기
+			String url = "jdbc:oracle:thin:@localhost:1521:xe";
+			conn = DriverManager.getConnection(url, "skudb", "skudb");
+
+			// 3. Statement 준비
+			String sql = "delete from members where m_num = ?";
+			pstmt = conn.prepareStatement(sql);
+
+			// 4. 바인딩
+			pstmt.setLong(1, no);
+
+			// 5. sql 실행
+			count = pstmt.executeUpdate();
+			System.out.println(count + "명의 회원정보가 삭제되었습니다.");
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("드라이버를 찾을 수 없습니다. : " + e);
+		} catch (SQLException e) {
+			System.out.println("SQL Error : " + e);
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("SQL Error : " + e);
+			}
+		}
+		return count;
+	}
+
+	public int membershipUpdate(MemberVo vo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int count = 0;
+
+		try {
+			// 1. 드라이버 로딩
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+
+			// 2. Connection 얻어오기
+			String url = "jdbc:oracle:thin:@localhost:1521:xe";
+			conn = DriverManager.getConnection(url, "skudb", "skudb");
+
+			// 3. Statement 준비
+			String sql = "update members set m_name = ?, m_phone = ?, m_email = ?, m_pw = ?";
+			pstmt = conn.prepareStatement(sql);
+
+			// 4. 바인딩
+			pstmt.setString(1, vo.getMemberName());
+			pstmt.setString(2, vo.getMemberPhone());
+			pstmt.setString(3, vo.getMemberEmail());
+			pstmt.setString(4, vo.getMemberPassword());
+
+			// 5. sql 실행
+			count = pstmt.executeUpdate();
+			System.out.println(count + "명의 회원정보가 수정되었습니다.");
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("드라이버를 찾을 수 없습니다. : " + e);
+		} catch (SQLException e) {
+			System.out.println("SQL Error : " + e);
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("SQL Error : " + e);
+			}
+		}
+		return count;
+	}
+
+	public List<MemberVo> getList() {
+		List<MemberVo> list = new ArrayList<MemberVo>();
 
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
+
 		try {
 			// 1. 드라이버 로딩
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -164,27 +161,30 @@ public class AuthorDao {
 			stmt = conn.createStatement();
 
 			// 4. SQL문 실행
-			String sql = "select no," + "       name," + "       description" + "  from author";
+			String sql = "select m_num, m_name, m_phone, m_email, m_pw from members";
 			rs = stmt.executeQuery(sql);
 
 			// 5. 결과 처리
 			while (rs.next()) {
-				Long no = rs.getLong(1);
-				String name = rs.getString(2);
-				String description = rs.getString(3);
+				Long memberNo = rs.getLong(1);
+				String memberName = rs.getString(2);
+				String memberPhone = rs.getString(3);
+				String memberEmail = rs.getString(4);
+				String memberPassword = rs.getString(5);
 
-				AuthorVo vo = new AuthorVo();
-				vo.setNo(no);
-				vo.setName(name);
-				vo.setDescription(description);
+				MemberVo vo = new MemberVo();
+				vo.setMemberNo(memberNo);
+				vo.setMemberName(memberName);
+				vo.setMemberPhone(memberPhone);
+				vo.setMemberEmail(memberEmail);
+				vo.setMemberPassword(memberPassword);
 
 				list.add(vo);
-
 			}
 		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패 :" + e);
+			System.out.println("드라이버 로딩 실패 : " + e);
 		} catch (SQLException e) {
-			System.out.println("error:" + e);
+			System.out.println("SQL Error : " + e);
 		} finally {
 			try {
 				// 6. 자원정리
@@ -203,7 +203,6 @@ public class AuthorDao {
 				System.out.println("error:" + e);
 			}
 		}
-
 		return list;
 	}
 }
